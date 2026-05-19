@@ -3,7 +3,7 @@
  import './App.css'
  import Banner from './Components/Banner/Banner'
  import RowPost from './Components/RowPost/RowPost'
- import { originals, action, comedy, horror, trending } from './Urls'
+ import { originals, action, comedy, horror, trending, romance } from './Urls'
  
  function App() {
    const [activeVideo, setActiveVideo] = useState(null)
@@ -18,6 +18,7 @@
       <RowPost rowId="action" title='Action' isSmall urls={action} activeVideo={activeVideo} setActiveVideo={setActiveVideo}/>
       <RowPost rowId="comedy" title='Comedy' isSmall urls={comedy} activeVideo={activeVideo} setActiveVideo={setActiveVideo}/>
       <RowPost rowId="horror" title='Horror' isSmall urls={horror} activeVideo={activeVideo} setActiveVideo={setActiveVideo}/>
+      <RowPost rowId="romance" title='Romance' isSmall urls={romance} activeVideo={activeVideo} setActiveVideo={setActiveVideo}/>
      </div>
    )
  }
