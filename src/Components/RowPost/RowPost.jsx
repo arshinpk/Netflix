@@ -2,8 +2,6 @@ import React, { useEffect, useRef, useState } from 'react'
 import './RowPost.css'
 import axios from '../../axios'
 import { imageUrl, API_KEY } from '../../Constants/Constants'
-import Youtube from 'react-youtube'
-
 function RowPost(props) {
   const [movies, setMovies] = useState([])
   const [showArrows, setShowArrows] = useState(false)
@@ -19,14 +17,6 @@ function RowPost(props) {
         console.log(err)
       })
   }, [props.urls])
-
-  const opts = {
-    height: '390',
-    width: '100%',
-    playerVars: {
-      autoplay: 1,
-    },
-  }
 
   const isActiveRow =
     props.activeVideo?.rowId === props.rowId &&
@@ -65,12 +55,6 @@ function RowPost(props) {
   return (
     <div className="row">
       <h2 className="row__title">{props.title}</h2>
-
-      {isActiveRow && props.activeVideo.videoId && (
-        <div className="row__player">
-          <Youtube videoId={props.activeVideo.videoId} opts={opts} />
-        </div>
-      )}
 
       <div
         className="row__slider"
