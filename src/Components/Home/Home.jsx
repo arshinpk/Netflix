@@ -9,6 +9,7 @@ import {
   trending,
   romance,
 } from '../../Urls'
+import TrailerModal from '../TrailerModal/TrailerModal'
 import './Home.css'
 
 function Home() {
@@ -16,6 +17,12 @@ function Home() {
 
   return (
     <div className="home">
+      {activeVideo?.videoId && (
+        <TrailerModal
+          videoId={activeVideo.videoId}
+          onClose={() => setActiveVideo(null)}
+        />
+      )}
       <Banner />
       <RowPost
         rowId="trending"

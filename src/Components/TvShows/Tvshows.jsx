@@ -7,6 +7,7 @@ import {
   tvComedy,
   tvCrime,
 } from '../../Urls'
+import TrailerModal from '../TrailerModal/TrailerModal'
 import './Tvshows.css'
 
 function Tvshows() {
@@ -14,6 +15,12 @@ function Tvshows() {
 
   return (
     <div className="tvshows">
+      {activeVideo?.videoId && (
+        <TrailerModal
+          videoId={activeVideo.videoId}
+          onClose={() => setActiveVideo(null)}
+        />
+      )}
       <h1 className="tvshows__heading">TV Shows</h1>
       <RowPost
         rowId="tv-trending"
