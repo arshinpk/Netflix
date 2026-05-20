@@ -79,15 +79,22 @@ function RowPost(props) {
             if (!imagePath) return null
 
             return (
-              <img
+              <div
                 key={movie.id}
+                className="poster-card"
                 onClick={() => handleMovie(movie.id)}
-                className={`${props.isSmall ? 'smallPoster' : 'poster'} ${
-                  isActive ? 'poster--active' : ''
-                }`}
-                src={imageUrl + imagePath}
-                alt={movie.title || movie.name}
-              />
+              >
+                <img
+                  className={`${props.isSmall ? 'smallPoster' : 'poster'} ${
+                    isActive ? 'poster--active' : ''
+                  }`}
+                  src={imageUrl + imagePath}
+                  alt={movie.title || movie.name}
+                />
+                <h4 className="poster-card__title">
+                  {movie.title || movie.name}
+                </h4>
+              </div>
             )
           })}
         </div>
