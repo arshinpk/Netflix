@@ -1,0 +1,13 @@
+.tvshows {
+  padding-top: 90px;
+  padding-bottom: 2rem;
+  background-color: #111;
+  min-height: 100vh;
+}
+
+.tvshows__heading {
+  margin: 0 0 1rem 4%;
+  color: #fff;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 700;
+}

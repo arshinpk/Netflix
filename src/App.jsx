@@ -1,26 +1,35 @@
- import React, { useState } from 'react'
- import NavBar from './Components/NavBar/NavBar'
- import './App.css'
- import Banner from './Components/Banner/Banner'
- import RowPost from './Components/RowPost/RowPost'
- import { originals, action, comedy, horror, trending, romance } from './Urls'
- 
- function App() {
-   const [activeVideo, setActiveVideo] = useState(null)
-   console.log(activeVideo)
+import React from 'react'
+import { Routes, Route } from 'react-router-dom'
+import NavBar from './Components/NavBar/NavBar'
+import Home from './Components/Home/Home'
+import Tvshows from './Components/TvShows/Tvshows'
+import './App.css'
 
-   return (
-     <div>
+function PagePlaceholder({ title }) {
+  return (
+    <div className="page-placeholder">
+      <h1>{title}</h1>
+      <p>Coming soon</p>
+    </div>
+  )
+}
+
+function App() {
+  return (
+    <div className="app">
       <NavBar />
-      <Banner />
-      <RowPost rowId="trending" title='Trending Now' urls={trending} activeVideo={activeVideo} setActiveVideo={setActiveVideo}/>
-      <RowPost rowId="originals" title='Netflix Originals' isSmall urls={originals} activeVideo={activeVideo} setActiveVideo={setActiveVideo}/>
-      <RowPost rowId="action" title='Action' isSmall urls={action} activeVideo={activeVideo} setActiveVideo={setActiveVideo}/>
-      <RowPost rowId="comedy" title='Comedy' isSmall urls={comedy} activeVideo={activeVideo} setActiveVideo={setActiveVideo}/>
-      <RowPost rowId="horror" title='Horror' isSmall urls={horror} activeVideo={activeVideo} setActiveVideo={setActiveVideo}/>
-      <RowPost rowId="romance" title='Romance' isSmall urls={romance} activeVideo={activeVideo} setActiveVideo={setActiveVideo}/>
-     </div>
-   )
- }
- 
- export default App
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/tv-shows" element={<Tvshows />} />
+        <Route path="/movies" element={<PagePlaceholder title="Movies" />} />
+        <Route
+          path="/new-and-popular"
+          element={<PagePlaceholder title="New & Popular" />}
+        />
+        <Route path="/my-list" element={<PagePlaceholder title="My List" />} />
+      </Routes>
+    </div>
+  )
+}
+
+export default App

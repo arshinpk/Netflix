@@ -1,4 +1,19 @@
-*{
-  margin: 0;
-  padding: 0; 
+.app {
+  background-color: #111;
+  min-height: 100vh;
+}
+
+.page-placeholder {
+  padding: 120px 4% 2rem;
+  color: #fff;
+  min-height: 60vh;
+}
+
+.page-placeholder h1 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.page-placeholder p {
+  color: #b3b3b3;
 }
