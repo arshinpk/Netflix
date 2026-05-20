@@ -38,7 +38,8 @@ function RowPost(props) {
       return
     }
 
-    axios.get(`/movie/${id}/videos?api_key=${API_KEY}`).then((response) => {
+    const mediaType = props.isTv ? 'tv' : 'movie'
+    axios.get(`/${mediaType}/${id}/videos?api_key=${API_KEY}`).then((response) => {
       if (response.data.results.length !== 0) {
         props.setActiveVideo({
           rowId: props.rowId,
