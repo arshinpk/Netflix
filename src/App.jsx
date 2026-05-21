@@ -4,6 +4,7 @@ import NavBar from './Components/NavBar/NavBar'
 import Home from './Components/Home/Home'
 import Tvshows from './Components/TvShows/Tvshows'
 import './App.css'
+import Search from './Components/Search/Search'
 
 function PagePlaceholder({ title }) {
   return (
@@ -27,6 +28,7 @@ function App() {
           element={<PagePlaceholder title="New & Popular" />}
         />
         <Route path="/my-list" element={<PagePlaceholder title="My List" />} />
+        <Route path="/search" element={<Search />} />
       </Routes>
     </div>
   )
