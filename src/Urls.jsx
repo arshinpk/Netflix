@@ -12,3 +12,6 @@ export const tvNetflix = `discover/tv?api_key=${API_KEY}&with_networks=213`;
 export const tvAction = `discover/tv?api_key=${API_KEY}&with_genres=10759`;
 export const tvComedy = `discover/tv?api_key=${API_KEY}&with_genres=35`;
 export const tvCrime = `discover/tv?api_key=${API_KEY}&with_genres=80`;
+
+export const searchUrl = (query) =>
+  `search/multi?api_key=${API_KEY}&query=${encodeURIComponent(query)}&language=en-US`
