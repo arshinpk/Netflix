@@ -6,7 +6,7 @@ import { imageUrl, API_KEY } from '../../Constants/Constants'
 import { useVideo } from '../../context/VideoContext'
 
 function MovieDetailModal() {
-  const { selectedMovie, closeMovieDetail, setActiveVideo } = useVideo()
+  const { selectedMovie, closeMovieDetail, openTrailer, openStream } = useVideo()
   const [details, setDetails] = useState(null)
   const [loading, setLoading] = useState(true)
 
@@ -41,6 +41,14 @@ function MovieDetailModal() {
     }
   }, [closeMovieDetail])
 
+  const handlePlay = () => {
+    if (!selectedMovie) return
+
+    const { id, mediaType, rowId } = selectedMovie
+    closeMovieDetail()
+    openStream({ id, mediaType, rowId })
+  }
+
   const playTrailer = () => {
     if (!selectedMovie) return
 
@@ -51,7 +59,7 @@ function MovieDetailModal() {
       .then((response) => {
         if (response.data.results.length !== 0) {
           closeMovieDetail()
-          setActiveVideo({
+          openTrailer({
             rowId,
             movieId: id,
             videoId: response.data.results[0].key,
@@ -117,7 +125,7 @@ function MovieDetailModal() {
                 <button
                   type="button"
                   className="detail-modal__btn detail-modal__btn--play"
-                  onClick={playTrailer}
+                  onClick={handlePlay}
                 >
                   ▶ Play
                 </button>

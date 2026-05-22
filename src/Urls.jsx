@@ -1,4 +1,4 @@
-import { API_KEY } from './Constants/Constants';
+import { API_KEY, VIDSRC_BASE } from './Constants/Constants';
 const timeWindow = 'week';
 
 export const originals = `discover/tv?api_key=${API_KEY}&with_networks=213`;
@@ -31,3 +31,9 @@ export const mediaDetails = (id, mediaType) =>
 
 export const searchUrl = (query) =>
   `search/multi?api_key=${API_KEY}&query=${encodeURIComponent(query)}&language=en-US`
+
+export const vidsrcMovieEmbed = (tmdbId) =>
+  `${VIDSRC_BASE}/embed/movie/${tmdbId}?autoplay=1&color=e50914`
+
+export const vidsrcTvEmbed = (tmdbId, season = 1, episode = 1) =>
+  `${VIDSRC_BASE}/embed/tv/${tmdbId}/${season}/${episode}?autoplay=1&color=e50914`

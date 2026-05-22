@@ -8,6 +8,7 @@ import Search from './Components/Search/Search'
 import Movies from './Components/Movies/Movies'
 import VideoProvider, { useVideo } from './context/VideoContext'
 import TrailerModal from './Components/TrailerModal/TrailerModal'
+import StreamModal from './Components/StreamModal/StreamModal'
 import MovieDetailModal from './Components/MovieDetailModal/MovieDetailModal'
 
 function PagePlaceholder({ title }) {
@@ -27,17 +28,30 @@ function GlobalMovieDetail() {
   return <MovieDetailModal />
 }
 
-function GlobalTrailer() {
+function GlobalPlayer() {
   const { activeVideo, closeTrailer } = useVideo()
 
-  if (!activeVideo?.videoId) return null
+  if (!activeVideo) return null
 
-  return (
-    <TrailerModal
-      videoId={activeVideo.videoId}
-      onClose={closeTrailer}
-    />
-  )
+  if (activeVideo.mode === 'stream' && activeVideo.streamUrl) {
+    return (
+      <StreamModal
+        embedUrl={activeVideo.streamUrl}
+        onClose={closeTrailer}
+      />
+    )
+  }
+
+  if (activeVideo.videoId) {
+    return (
+      <TrailerModal
+        videoId={activeVideo.videoId}
+        onClose={closeTrailer}
+      />
+    )
+  }
+
+  return null
 }
 
 function App() {
@@ -46,7 +60,7 @@ function App() {
       <div className="app">
         <NavBar />
         <GlobalMovieDetail />
-        <GlobalTrailer />
+        <GlobalPlayer />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/tv-shows" element={<Tvshows />} />
