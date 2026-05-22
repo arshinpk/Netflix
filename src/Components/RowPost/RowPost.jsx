@@ -1,14 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react'
 import './RowPost.css'
 import axios from '../../axios'
-import { imageUrl, API_KEY } from '../../Constants/Constants'
+import { imageUrl } from '../../Constants/Constants'
 import { useVideo } from '../../context/VideoContext'
 
 function RowPost(props) {
   const [movies, setMovies] = useState([])
   const [showArrows, setShowArrows] = useState(false)
   const postersRef = useRef(null)
-  const { activeVideo, setActiveVideo } = useVideo()
+  const { activeVideo, openMovieDetail } = useVideo()
 
   useEffect(() => {
     axios
@@ -25,24 +25,11 @@ function RowPost(props) {
     activeVideo?.rowId === props.rowId &&
     activeVideo?.movieId != null
 
-  const handleMovie = (id) => {
-    if (isActiveRow && activeVideo.movieId === id) {
-      setActiveVideo(null)
-      return
-    }
-
-    const mediaType = props.isTv ? 'tv' : 'movie'
-    axios.get(`/${mediaType}/${id}/videos?api_key=${API_KEY}`).then((response) => {
-      if (response.data.results.length !== 0) {
-        setActiveVideo({
-          rowId: props.rowId,
-          movieId: id,
-          videoId: response.data.results[0].key,
-        })
-      } else {
-        setActiveVideo(null)
-        console.log('No video found')
-      }
+  const handlePosterClick = (movie) => {
+    openMovieDetail({
+      id: movie.id,
+      mediaType: props.isTv ? 'tv' : 'movie',
+      rowId: props.rowId,
     })
   }
 
@@ -85,7 +72,7 @@ function RowPost(props) {
               <div
                 key={movie.id}
                 className="poster-card"
-                onClick={() => handleMovie(movie.id)}
+                onClick={() => handlePosterClick(movie)}
               >
                 <img
                   className={`${props.isSmall ? 'smallPoster' : 'poster'} ${
