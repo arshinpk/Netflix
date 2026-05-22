@@ -3,7 +3,7 @@ import './Search.css'
 import { useSearchParams } from 'react-router-dom'
 import axios from '../../axios'
 import { searchUrl } from '../../Urls'
-import { imageUrl, API_KEY } from '../../Constants/Constants'
+import { imageUrl } from '../../Constants/Constants'
 import { useVideo } from '../../context/VideoContext'
 
 function Search() {
@@ -11,7 +11,7 @@ function Search() {
   const query = searchParams.get('query') || ''
   const [results, setResults] = useState([])
   const [loading, setLoading] = useState(false)
-  const { setActiveVideo } = useVideo()
+  const { openMovieDetail } = useVideo()
 
   useEffect(() => {
     if (!query.trim()) {
@@ -37,25 +37,12 @@ function Search() {
       })
   }, [query])
 
-  const openTrailer = (item) => {
-    const mediaType = item.media_type === 'tv' ? 'tv' : 'movie'
-
-    axios
-      .get(`/${mediaType}/${item.id}/videos?api_key=${API_KEY}`)
-      .then((response) => {
-        if (response.data.results.length !== 0) {
-          setActiveVideo({
-            rowId: 'search',
-            movieId: item.id,
-            videoId: response.data.results[0].key,
-          })
-        } else {
-          console.log('No trailer found')
-        }
-      })
-      .catch((error) => {
-        console.error('Error fetching trailer:', error)
-      })
+  const openDetails = (item) => {
+    openMovieDetail({
+      id: item.id,
+      mediaType: item.media_type === 'tv' ? 'tv' : 'movie',
+      rowId: 'search',
+    })
   }
 
   return (
@@ -85,7 +72,7 @@ function Search() {
             <div
               key={`${item.media_type}-${item.id}`}
               className="search__card"
-              onClick={() => openTrailer(item)}
+              onClick={() => openDetails(item)}
             >
               <img
                 src={imageUrl + imagePath}

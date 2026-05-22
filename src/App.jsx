@@ -8,6 +8,7 @@ import Search from './Components/Search/Search'
 import Movies from './Components/Movies/Movies'
 import VideoProvider, { useVideo } from './context/VideoContext'
 import TrailerModal from './Components/TrailerModal/TrailerModal'
+import MovieDetailModal from './Components/MovieDetailModal/MovieDetailModal'
 
 function PagePlaceholder({ title }) {
   return (
@@ -18,9 +19,17 @@ function PagePlaceholder({ title }) {
   )
 }
 
+function GlobalMovieDetail() {
+  const { selectedMovie } = useVideo()
+
+  if (!selectedMovie) return null
+
+  return <MovieDetailModal />
+}
+
 function GlobalTrailer() {
-  const { activeVideo, closeTrailer } = useVideo() 
-  
+  const { activeVideo, closeTrailer } = useVideo()
+
   if (!activeVideo?.videoId) return null
 
   return (
@@ -36,6 +45,7 @@ function App() {
     <VideoProvider>
       <div className="app">
         <NavBar />
+        <GlobalMovieDetail />
         <GlobalTrailer />
         <Routes>
           <Route path="/" element={<Home />} />

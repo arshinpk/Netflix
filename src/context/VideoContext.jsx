@@ -4,6 +4,7 @@ const VideoContext = createContext(null)
 
 export default function VideoProvider({ children }) {
   const [activeVideo, setActiveVideo] = useState(null)
+  const [selectedMovie, setSelectedMovie] = useState(null)
 
   const openTrailer = ({ rowId, movieId, videoId }) => {
     setActiveVideo({ rowId, movieId, videoId })
@@ -13,10 +14,21 @@ export default function VideoProvider({ children }) {
     setActiveVideo(null)
   }
 
+  const openMovieDetail = ({ id, mediaType, rowId }) => {
+    setSelectedMovie({ id, mediaType, rowId })
+  }
+
+  const closeMovieDetail = () => {
+    setSelectedMovie(null)
+  }
+
   const value = {
     activeVideo,
+    selectedMovie,
     openTrailer,
     closeTrailer,
+    openMovieDetail,
+    closeMovieDetail,
     setActiveVideo,
   }
 
