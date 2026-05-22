@@ -4,20 +4,21 @@ import { useSearchParams } from 'react-router-dom'
 import axios from '../../axios'
 import { searchUrl } from '../../Urls'
 import { imageUrl, API_KEY } from '../../Constants/Constants'
-import TrailerModal from '../TrailerModal/TrailerModal'
+import { useVideo } from '../../context/VideoContext'
 
 function Search() {
   const [searchParams] = useSearchParams()
   const query = searchParams.get('query') || ''
   const [results, setResults] = useState([])
   const [loading, setLoading] = useState(false)
-  const [activeVideo, setActiveVideo] = useState(null)
+  const { setActiveVideo } = useVideo()
 
   useEffect(() => {
     if (!query.trim()) {
       setResults([])
       return
     }
+
     setLoading(true)
     axios
       .get(searchUrl(query))
@@ -43,7 +44,11 @@ function Search() {
       .get(`/${mediaType}/${item.id}/videos?api_key=${API_KEY}`)
       .then((response) => {
         if (response.data.results.length !== 0) {
-          setActiveVideo({ videoId: response.data.results[0].key })
+          setActiveVideo({
+            rowId: 'search',
+            movieId: item.id,
+            videoId: response.data.results[0].key,
+          })
         } else {
           console.log('No trailer found')
         }
@@ -55,13 +60,6 @@ function Search() {
 
   return (
     <div className="search">
-      {activeVideo?.videoId && (
-        <TrailerModal
-          videoId={activeVideo.videoId}
-          onClose={() => setActiveVideo(null)}
-        />
-      )}
-
       <h1 className="search__title">
         {query ? `Results for "${query}"` : 'Search'}
       </h1>
@@ -73,7 +71,9 @@ function Search() {
       )}
 
       {!loading && !query && (
-        <p className="search__message">Use the search icon above to find movies and TV shows.</p>
+        <p className="search__message">
+          Use the search icon above to find movies and TV shows.
+        </p>
       )}
 
       <div className="search__grid">

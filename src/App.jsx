@@ -6,6 +6,8 @@ import Tvshows from './Components/TvShows/Tvshows'
 import './App.css'
 import Search from './Components/Search/Search'
 import Movies from './Components/Movies/Movies'
+import VideoProvider, { useVideo } from './context/VideoContext'
+import TrailerModal from './Components/TrailerModal/TrailerModal'
 
 function PagePlaceholder({ title }) {
   return (
@@ -16,22 +18,38 @@ function PagePlaceholder({ title }) {
   )
 }
 
+function GlobalTrailer() {
+  const { activeVideo, closeTrailer } = useVideo() 
+  
+  if (!activeVideo?.videoId) return null
+
+  return (
+    <TrailerModal
+      videoId={activeVideo.videoId}
+      onClose={closeTrailer}
+    />
+  )
+}
+
 function App() {
   return (
-    <div className="app">
-      <NavBar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/tv-shows" element={<Tvshows />} />
-        <Route path="/movies" element={<Movies />} />
-        <Route
-          path="/new-and-popular"
-          element={<PagePlaceholder title="New & Popular" />}
-        />
-        <Route path="/my-list" element={<PagePlaceholder title="My List" />} />
-        <Route path="/search" element={<Search />} />
-      </Routes>
-    </div>
+    <VideoProvider>
+      <div className="app">
+        <NavBar />
+        <GlobalTrailer />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/tv-shows" element={<Tvshows />} />
+          <Route path="/movies" element={<Movies />} />
+          <Route
+            path="/new-and-popular"
+            element={<PagePlaceholder title="New & Popular" />}
+          />
+          <Route path="/my-list" element={<PagePlaceholder title="My List" />} />
+          <Route path="/search" element={<Search />} />
+        </Routes>
+      </div>
+    </VideoProvider>
   )
 }
 
