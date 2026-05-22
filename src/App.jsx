@@ -5,6 +5,7 @@ import Home from './Components/Home/Home'
 import Tvshows from './Components/TvShows/Tvshows'
 import './App.css'
 import Search from './Components/Search/Search'
+import Movies from './Components/Movies/Movies'
 
 function PagePlaceholder({ title }) {
   return (
@@ -22,7 +23,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/tv-shows" element={<Tvshows />} />
-        <Route path="/movies" element={<PagePlaceholder title="Movies" />} />
+        <Route path="/movies" element={<Movies />} />
         <Route
           path="/new-and-popular"
           element={<PagePlaceholder title="New & Popular" />}
