@@ -51,7 +51,6 @@ function NavBar() {
         </NavLink>
         <NavLink to="/tv-shows">TV Shows</NavLink>
         <NavLink to="/movies">Movies</NavLink>
-        <NavLink to="/new-and-popular">New & Popular</NavLink>
         <NavLink to="/my-list">My List</NavLink>
       </div>
 
