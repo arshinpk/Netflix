@@ -2,10 +2,13 @@ import React, { useEffect, useRef, useState } from 'react'
 import './RowPost.css'
 import axios from '../../axios'
 import { imageUrl, API_KEY } from '../../Constants/Constants'
+import { useVideo } from '../../context/VideoContext'
+
 function RowPost(props) {
   const [movies, setMovies] = useState([])
   const [showArrows, setShowArrows] = useState(false)
   const postersRef = useRef(null)
+  const { activeVideo, setActiveVideo } = useVideo()
 
   useEffect(() => {
     axios
@@ -19,25 +22,25 @@ function RowPost(props) {
   }, [props.urls])
 
   const isActiveRow =
-    props.activeVideo?.rowId === props.rowId &&
-    props.activeVideo?.movieId != null
+    activeVideo?.rowId === props.rowId &&
+    activeVideo?.movieId != null
 
   const handleMovie = (id) => {
-    if (isActiveRow && props.activeVideo.movieId === id) {
-      props.setActiveVideo(null)
+    if (isActiveRow && activeVideo.movieId === id) {
+      setActiveVideo(null)
       return
     }
 
     const mediaType = props.isTv ? 'tv' : 'movie'
     axios.get(`/${mediaType}/${id}/videos?api_key=${API_KEY}`).then((response) => {
       if (response.data.results.length !== 0) {
-        props.setActiveVideo({
+        setActiveVideo({
           rowId: props.rowId,
           movieId: id,
           videoId: response.data.results[0].key,
         })
       } else {
-        props.setActiveVideo(null)
+        setActiveVideo(null)
         console.log('No video found')
       }
     })
@@ -73,7 +76,7 @@ function RowPost(props) {
         <div className="posters" ref={postersRef}>
           {movies.map((movie) => {
             const isActive =
-              isActiveRow && props.activeVideo.movieId === movie.id
+              isActiveRow && activeVideo.movieId === movie.id
             const imagePath = movie.backdrop_path || movie.poster_path
 
             if (!imagePath) return null
