@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import { FaArrowLeft } from 'react-icons/fa'
 import Youtube from 'react-youtube'
 import './TrailerModal.css'
 
@@ -33,8 +34,8 @@ function TrailerModal({ videoId, onClose }) {
         onClick={onClose}
         aria-label="Close trailer"
       >
-        ←
-        Back
+        <FaArrowLeft className="trailer-modal__back-icon" aria-hidden="true" />
+        <span>Back</span>
       </button>
       <div
         className="trailer-modal__content"

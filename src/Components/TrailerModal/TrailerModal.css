@@ -13,18 +13,30 @@
   top: 24px;
   left: 4%;
   z-index: 201;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
   background: transparent;
   border: none;
   color: #fff;
-  font-size: 1.1rem;
-  font-weight: 600;
+  font-size: 1rem;
+  font-weight: 700;
   cursor: pointer;
   padding: 0.5rem 0;
-  transition: color 0.2s ease;
+  transition: color 0.2s ease, opacity 0.2s ease;
+}
+
+.trailer-modal__back-icon {
+  font-size: 1.125rem;
+  flex-shrink: 0;
+  line-height: 1;
+  vertical-align: middle;
 }
 
 .trailer-modal__back:hover {
-  color: #b3b3b3;
+  color: #e5e5e5;
+  opacity: 0.85;
 }
 
 .trailer-modal__content {
