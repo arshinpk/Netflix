@@ -1,5 +1,5 @@
 import React from 'react'
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, useLocation } from 'react-router-dom'
 import NavBar from './Components/NavBar/NavBar'
 import Home from './Components/Home/Home'
 import Tvshows from './Components/TvShows/Tvshows'
@@ -10,6 +10,9 @@ import VideoProvider, { useVideo } from './context/VideoContext'
 import TrailerModal from './Components/TrailerModal/TrailerModal'
 import StreamModal from './Components/StreamModal/StreamModal'
 import MovieDetailModal from './Components/MovieDetailModal/MovieDetailModal'
+import AuthProvider from './context/AuthContext'
+import Login from './Components/Login/Login'
+import ProtectedRoute from './Components/Login/ProtectedRoute'
 
 function PagePlaceholder({ title }) {
   return (
@@ -54,14 +57,19 @@ function GlobalPlayer() {
   return null
 }
 
-function App() {
+function AppContent() {
+  const location = useLocation()
+  const hideNav = ['/login', '/signup'].includes(location.pathname)
+
   return (
-    <VideoProvider>
-      <div className="app">
-        <NavBar />
-        <GlobalMovieDetail />
-        <GlobalPlayer />
-        <Routes>
+    <div className="app">
+      {!hideNav && <NavBar />}
+      <GlobalMovieDetail />
+      <GlobalPlayer />
+      <Routes>
+        <Route path="/login" element={<Login />} />
+
+        <Route element={<ProtectedRoute />}>
           <Route path="/" element={<Home />} />
           <Route path="/tv-shows" element={<Tvshows />} />
           <Route path="/movies" element={<Movies />} />
@@ -71,9 +79,19 @@ function App() {
           />
           <Route path="/my-list" element={<PagePlaceholder title="My List" />} />
           <Route path="/search" element={<Search />} />
-        </Routes>
-      </div>
-    </VideoProvider>
+        </Route>
+      </Routes>
+    </div>
+  )
+}
+
+function App() {
+  return (
+    <AuthProvider>
+      <VideoProvider>
+        <AppContent />
+      </VideoProvider>
+    </AuthProvider>
   )
 }
 
