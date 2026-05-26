@@ -1,11 +1,18 @@
 import React, { useState, useEffect } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import './NavBar.css'
+import { useAuth } from '../../context/AuthContext'
 
 function NavBar() {
   const [showSearch, setShowSearch] = useState(false)
   const [term, setTerm] = useState('')
   const navigate = useNavigate()
+  const { logout, user } = useAuth()
+
+  const handleLogout = () => {
+    logout()
+    navigate('/login')
+  }
 
   const handleSearchSubmit = (e) => {
     e.preventDefault()
@@ -108,10 +115,16 @@ function NavBar() {
         />
         <span className="navbar-caret" aria-hidden="true" />
         <div className="navbar-dropdown">
-          <p className="navbar-dropdown__item">John Doe</p>
-          <p className="navbar-dropdown__item navbar-dropdown__item--logout">
-            Logout
+          <p className="navbar-dropdown__item">
+            {user?.name || user?.email || 'Account'}
           </p>
+          <button
+            type="button"
+            className="navbar-dropdown__item navbar-dropdown__item--logout"
+            onClick={handleLogout}
+          >
+            Sign out
+          </button>
         </div>
       </div>
     </nav>
