@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useAuth } from '../../context/AuthContext'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Navigate } from 'react-router-dom'
 import './Login.css'
 
 const NETFLIX_LOGO =
@@ -11,24 +11,25 @@ function Login() {
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const { login, isAuthenticated } = useAuth()
+  const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
 
-  useEffect(() => {
-    if (isAuthenticated) {
-      navigate('/', { replace: true })
-    }
-  }, [isAuthenticated, navigate])
+  if (isAuthenticated) {
+    return <Navigate to="/" replace />
+  }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     setError('')
+    setLoading(true)
 
-    const result = login(email.trim(), password)
+    const result = await login(email.trim(), password)
     if (result.success) {
-      navigate('/')
+      navigate('/', { replace: true })
     } else {
       setError(result.error)
     }
+    setLoading(false)
   }
 
   return (
@@ -54,8 +55,8 @@ function Login() {
           placeholder="Password"
           required
         />
-        <button type="submit" className="login__button">
-          Sign In
+        <button type="submit" className="login__button" disabled={loading}>
+          {loading ? 'Signing In...' : 'Sign In'}
         </button>
       </form>
     </div>
