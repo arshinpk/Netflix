@@ -80,3 +80,9 @@
 .login__button:hover {
   background: #f40612;
 }
+.register-link{
+  color: aliceblue;
+}
+.link-click {
+  color: #4493f8;
+}

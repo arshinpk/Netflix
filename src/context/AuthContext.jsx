@@ -74,12 +74,45 @@ export default function AuthProvider({ children }) {
         localStorage.removeItem('netflix_token')
     }
 
+    const register = async (name, email, password)=> {
+        const trimmedEmail = email?.trim().toLowerCase();
+        if (!trimmedEmail || !password || password.length < 6) {
+            return { success: false, error: 'Password must be at least 6 characters' }
+        }
+        try { 
+        
+            const { data } = await axios.post(`${expressUrl}/api/auth/register`,{
+                name : name,
+                email : trimmedEmail,
+                password :password
+            })
+
+            if(!data?.status){
+                return {success: false, error: data?.message}
+            }
+            
+            if(!data?.token){
+                return {success: false, error:"Please try again!"}
+            }
+
+            return {
+                success :true
+            }
+        } catch (err) {
+            return {
+                success: false,
+                error: err?.response?.data?.message || 'Login failed'
+            }
+        }
+    }
+
     const isAuthenticated = !!user && !!token // (!! converts any value into a true boolean (true or false)).
     const value = {
         user,
         isAuthenticated,
         login,
-        logout
+        logout,
+        register
     }
     return ( 
       <AuthContext.Provider value={value}>

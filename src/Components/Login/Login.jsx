@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useAuth } from '../../context/AuthContext'
-import { useNavigate, Navigate } from 'react-router-dom'
+import { useNavigate, Navigate, Link } from 'react-router-dom'
 import './Login.css'
 
 const NETFLIX_LOGO =
@@ -58,6 +58,7 @@ function Login() {
         <button type="submit" className="login__button" disabled={loading}>
           {loading ? 'Signing In...' : 'Sign In'}
         </button>
+        <p className='register-link'>New to Netflix? <Link to="/register" className='link-click'>Sign up now.</Link></p>
       </form>
     </div>
   )

@@ -13,7 +13,7 @@ router.post('/register', async (req, res) => {
         //check user exist or not
         const existingUser = await User.findOne({ email });
         if(existingUser) {
-            return res.status(400).json({ message: 'User already exists' });
+            return res.json({ status: false, message: 'User already exists' });
         }
 
         //password encrypt
@@ -30,7 +30,7 @@ router.post('/register', async (req, res) => {
 
         //token generate 
         const token = jwt.sign({ id: newUser._id}, process.env.JWT_SECRET, { expiresIn: '1h' }); 
-        res.status(201).json({ token , message:'success'});
+        res.json({ token , message:'success',status:true});
 
     } catch (error) {
         res.status(500).json({ message: error.message });

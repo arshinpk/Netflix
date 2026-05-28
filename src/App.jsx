@@ -13,6 +13,7 @@ import MovieDetailModal from './Components/MovieDetailModal/MovieDetailModal'
 import AuthProvider from './context/AuthContext'
 import Login from './Components/Login/Login'
 import ProtectedRoute from './Components/Login/ProtectedRoute'
+import SignUp from './Components/SignUp/SignUp'
 
 function PagePlaceholder({ title }) {
   return (
@@ -59,7 +60,7 @@ function GlobalPlayer() {
 
 function AppContent() {
   const location = useLocation()
-  const hideNav = ['/login', '/signup'].includes(location.pathname)
+  const hideNav = ['/login', '/register'].includes(location.pathname)
 
   return (
     <div className="app">
@@ -68,7 +69,8 @@ function AppContent() {
       <GlobalPlayer />
       <Routes>
         <Route path="/login" element={<Login />} />
-
+        <Route path="/register" element={ <SignUp />} />
+        
         <Route element={<ProtectedRoute />}>
           <Route path="/" element={<Home />} />
           <Route path="/tv-shows" element={<Tvshows />} />
